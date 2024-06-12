@@ -10,12 +10,14 @@
  *
  * Learn more at https://developers.cloudflare.com/workers/
  */
+import { handleRegistryRequest } from './core/handle';
+
+export interface Env {
+	DCR_CACHE: KVNamespace;
+}
 
 export default {
 	async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
-		const resp = await fetch('https://www.google.com', {
-			method: 'GET', headers: {}
-		})
-		return new Response('Hello World! ' + await resp.text());
-	},
+		return handleRegistryRequest(request, env);
+	}
 };
