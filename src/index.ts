@@ -16,6 +16,6 @@ export default {
 		const resp = await fetch('https://www.google.com', {
 			method: 'GET', headers: {}
 		})
-		return new Response('Hello World! ' + resp.status);
+		return new Response('Hello World! ' + await resp.text());
 	},
 };
