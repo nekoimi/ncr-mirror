@@ -80,7 +80,6 @@ async function refreshToken(env: Env, authenticate: WWWAuthenticate): Promise<To
 export async function getToken(env: Env, authenticate: WWWAuthenticate): Promise<Token> {
 	const tokenKey = await buildTokenKey(authenticate)
 	let tokenStr = await env.DCR_CACHE.get(tokenKey)
-	console.log("tokenStr", tokenStr)
 	if (!tokenStr) {
 		return refreshToken(env, authenticate)
 	}
