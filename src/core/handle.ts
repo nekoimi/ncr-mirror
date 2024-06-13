@@ -2,13 +2,6 @@ import {Env} from '../index';
 import {proxy} from "./forward";
 
 /**
- * CloudFlare Workers 配置下列自定义访问域名
- * https://docker.mirror.403forbidden.run
- * https://quay.mirror.403forbidden.run
- * https://ghcr.mirror.403forbidden.run
- * https://gcr.mirror.403forbidden.run
- * https://k8sgcr.mirror.403forbidden.run
- *
  * 代理容器hub名称Host映射
  */
 const HUB_SET: Set<string> = new Set<string>([
@@ -26,17 +19,6 @@ const HUB_HOST_MAP: { [key: string]: string } = {
  * handle registry request
  * @param request
  * @param env
- * GET https://docker.mirror.403forbidden.run/v2/
- * HEAD https://docker.mirror.403forbidden.run/v2/library/nginx/manifests/latest
- * GET https://docker.mirror.403forbidden.run/v2/library/nginx/manifests/latest
- * ---
- * GET https://docker.mirror.403forbidden.run/v2/
- * HEAD https://docker.mirror.403forbidden.run/v2/nekoimi/webapp/manifests/latest
- * GET https://docker.mirror.403forbidden.run/v2/nekoimi/webapp/manifests/latest
- * ---
- * GET https://docker.mirror.403forbidden.run/v2/
- * HEAD https://docker.mirror.403forbidden.run/v2/library/redis/manifests/7.0.15-alpine3.20
- * GET https://docker.mirror.403forbidden.run/v2/library/redis/manifests/7.0.15-alpine3.20
  */
 export async function handleRegistryRequest(request: Request, env: Env): Promise<Response> {
 	const requestUrl = new URL(request.url)
