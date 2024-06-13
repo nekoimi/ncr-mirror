@@ -39,7 +39,14 @@ const HUB_HOST_MAP: { [key: string]: string } = {
  * GET https://docker.mirror.403forbidden.run/v2/library/redis/manifests/7.0.15-alpine3.20
  */
 export async function handleRegistryRequest(request: Request, env: Env): Promise<Response> {
-	const proxyUrl: URL = buildProxyUrl(request.url)
+	const requestUrl = new URL(request.url)
+	if (requestUrl.pathname == "/") {
+		return new Response("Not supported", {
+			status: 403
+		})
+	}
+
+	const proxyUrl: URL = buildProxyUrl(requestUrl)
 	console.log("requestUrl: ", request.url, "proxyUrl: ", proxyUrl)
 	return proxy(env,{
 		method: request.method,
@@ -50,10 +57,9 @@ export async function handleRegistryRequest(request: Request, env: Env): Promise
 
 /**
  * 构建代理URL
- * @param urlStr
+ * @param url
  */
-function buildProxyUrl(urlStr: string): URL {
-	const url = new URL(urlStr)
+function buildProxyUrl(url: URL): URL {
 	const hub = extractHubFormUrl(url)
 	return new URL(url.pathname, hub.host)
 }
