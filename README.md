@@ -1,4 +1,4 @@
-# cloudflare-cr-mirror
+# ncr-mirror
 
 适用于CloudFlare的Worker容器镜像代理
 
