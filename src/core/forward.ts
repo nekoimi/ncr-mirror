@@ -1,12 +1,8 @@
 import {headers2map} from "./utils";
+import {getToken, parseAuthenticateStr} from "./authenticate";
+import {Env} from "../index";
 
-interface ProxyArgs {
-	method: string,
-	url: URL,
-	headers: Headers
-}
-
-export async function proxy(args: ProxyArgs): Promise<Response> {
+export async function proxy(env: Env, args: ProxyArgs): Promise<Response> {
 	const response = await fetch(args.url, {
 		method: args.method,
 		headers: args.headers,
@@ -16,11 +12,22 @@ export async function proxy(args: ProxyArgs): Promise<Response> {
 		return response
 	}
 
+	// remote response status => 401
 	console.log("resp-headers: ", headers2map(response.headers))
-
-	// 远程响应为 401
 	const authenticateStr = response.headers.get("www-authenticate")
-	console.log("authenticateStr: ", authenticateStr)
-	// https://gcr.io/v2/token?scope=repository:google_containers/heapster-amd64:pull&service=gcr.io
-	return response
+	if (authenticateStr == null) {
+		return response
+	}
+
+	const wwwAuthenticate: WWWAuthenticate = parseAuthenticateStr(authenticateStr)
+	console.log("wwwAuthenticate", wwwAuthenticate)
+	const token: Token = await getToken(env, wwwAuthenticate)
+	console.log("token", token)
+	const authenticateHeaders = new Headers(args.headers)
+	authenticateHeaders.append("Authorization", "Bearer " + token.token)
+	return await fetch(args.url, {
+		method: args.method,
+		headers: authenticateHeaders,
+		redirect: "follow"
+	})
 }

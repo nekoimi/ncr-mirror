@@ -72,7 +72,7 @@ compatibility_flags = ["nodejs_compat"]
 # binding = "MY_KV_NAMESPACE"
 # id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 [[kv_namespaces]]
-binding = "dcr_cache"
+binding = "DCR_CACHE"
 id = "9115b1546c86445884be93f745e8c687"
 
 # Bind an mTLS certificate. Use to present a client certificate when communicating with another service.
