@@ -64,11 +64,13 @@ async function refreshToken(env: Env, authenticate: WWWAuthenticate): Promise<To
 	console.log("refreshToken", body)
 	const token: Token = {
 		token: body.token,
-		expires_in: body.expires_in,
+		expires_in: body?.expires_in,
 		issued_at: body?.issued_at
 	}
 	const tokenKey = await buildTokenKey(authenticate)
-	await env.DCR_CACHE.put(tokenKey, JSON.stringify(token))
+	await env.DCR_CACHE.put(tokenKey, JSON.stringify(token), {
+		expirationTtl: token?.expires_in ? token.expires_in : 300
+	})
 	return token
 }
 

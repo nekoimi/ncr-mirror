@@ -21,6 +21,6 @@ interface WWWAuthenticate {
 // token
 interface Token {
 	token: string
-	expires_in: number
+	expires_in?: number
 	issued_at?: string
 }
