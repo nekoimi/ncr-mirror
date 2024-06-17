@@ -5,11 +5,11 @@
 ### Workers 配置下列自定义访问域名
 
 ```html
-docker.mirror.403forbidden.run   代理docker.io
-quay.mirror.403forbidden.run   代理quay.io
-ghcr.mirror.403forbidden.run   代理ghcr.io
-gcr.mirror.403forbidden.run   代理gcr.io
-k8sgcr.mirror.403forbidden.run  代理k8s.gcr.io
+docker.mirror.403forbidden.run   	代理docker.io
+quay.mirror.403forbidden.run   		代理quay.io
+ghcr.mirror.403forbidden.run   		代理ghcr.io
+gcr.mirror.403forbidden.run   		代理gcr.io
+k8sgcr.mirror.403forbidden.run 		代理k8s.gcr.io
 ```
 
 ### 使用
@@ -17,7 +17,7 @@ k8sgcr.mirror.403forbidden.run  代理k8s.gcr.io
 - dockerhub
 
 ```shell
-docker pull docker.io/library/nginx:latest
+docker pull nginx:latest
 ```
 
 mirror
